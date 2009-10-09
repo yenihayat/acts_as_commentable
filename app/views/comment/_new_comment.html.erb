@@ -1,0 +1,4 @@
+<% form_for comment, :url => { :controller => "comment", :action => "create", :id => commentable.id, :type => commentable.class.name } do |f| %>
+    <%= render :partial => "comment/form", :locals => {:form => f} %>
+    <%= f.submit "Gönder" %>
+<% end %>
