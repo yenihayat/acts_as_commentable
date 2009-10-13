@@ -60,7 +60,11 @@ module Juixe
         end
 
         def div_id
-          self.class.name.underscore + "_" + id.to_s
+          self.class.name.underscore + "_" + id.to_s + "_comment"
+        end
+
+        def reply_function
+          "reply_" + div_id
         end
 
       end
