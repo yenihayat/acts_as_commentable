@@ -9,11 +9,11 @@ module CommentHelper
 
     if opts[:new_comment]
       out << "<div id=\"#{commentable.div_id}_container\">"
-      out << "<div id=\"#{commentable.div_id}_comment\" class=\"form\">#{new_comment(commentable)}</div>"
+      out << "<div id=\"#{commentable.div_id}\" class=\"form\">#{new_comment(commentable)}</div>"
       out << "</div>"
     end
 
-    out << render(:partial => "comment/reply_comment", :locals => { :div_id => "#{commentable.div_id}_comment"})
+    out << render(:partial => "comment/reply_comment", :locals => { :div_id => commentable.div_id, :reply_function => commentable.reply_function })
   end
 
   def new_comment(commentable)
@@ -29,7 +29,7 @@ module CommentHelper
       out << "<div class=\"content\">#{c.comment}</div>"
       if opts[:new_comment]
         out << "<div class=\"reply\">"
-        out << "<div class=\"reply_link\">#{link_to_function("cevapla", "reply_comment(this, #{c.id})")}</div>"
+        out << "<div class=\"reply_link\">#{link_to_function("cevapla", "#{c.commentable.reply_function}(this, #{c.id})")}</div>"
         out << "</div>"
       end
       out << comment(c.children, opts) unless c.children.empty?

@@ -12,7 +12,7 @@ class CommentController < ActionController::Base
         end
         page.redirect_to :back
       else        
-        page["#{comment.commentable.div_id}_comment"].replace_html :partial => "new_comment", :locals => { :comment => comment, :parent_id => params[:parent_id] }
+        page[comment.commentable.div_id].replace_html :partial => "new_comment", :locals => { :comment => comment, :parent_id => params[:parent_id] }
       end
     end
 
