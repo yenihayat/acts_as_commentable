@@ -13,6 +13,8 @@ class Comment < ActiveRecord::Base
   default_scope :order => 'created_at ASC'
   acts_as_nested_set :dependent => :destroy
 
+  is_gravtastic!
+  
   def before_save
     self.website = nil if self.website.blank?
     self.website = "http://" + self.website if self.website and !self.website.start_with?("http://")

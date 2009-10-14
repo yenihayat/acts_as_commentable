@@ -21,21 +21,28 @@ module CommentHelper
   end
 
   def comment(comments, opts)
-    out = "<ul>"
-    comments.each do |c|
-      out << "<li>"
-      out << "<div class=\"author\">#{c.website ? link_to(c.name, c.website, :target => "_blank", :rel => "external nofollow") : c.name}</div>"
-      out << "<div class=\"date\">#{c.created_at}</div>"
-      out << "<div class=\"content\">#{c.comment}</div>"
-      if opts[:new_comment]
-        out << "<div class=\"reply\">"
-        out << "<div class=\"reply_link\">#{link_to_function("cevapla", "#{c.commentable.reply_function}(this, #{c.id})")}</div>"
-        out << "</div>"
+    unless comments.empty?
+      avatar = comments.first.commentable.avatar
+      reply_function = comments.first.commentable.reply_function
+      out = "<ul>"
+      comments.each do |c|
+        out << "<li>"
+        out << "<div class=\"avatar\">#{image_tag c.gravatar_url}</div>" if avatar
+        out << "<div class=\"author\">#{c.website ? link_to(c.name, c.website, :target => "_blank", :rel => "external nofollow") : c.name}</div>"
+        out << "<div class=\"date\">#{c.created_at}</div>"
+        out << "<div class=\"content\">#{c.comment}</div>"
+        if opts[:new_comment]
+          out << "<div class=\"reply\">"
+          out << "<div class=\"reply_link\">#{link_to_function("cevapla", "#{reply_function}(this, #{c.id})")}</div>"
+          out << "</div>"
+        end
+        out << comment(c.children, opts) unless c.children.empty?
+        out << "</li>"
       end
-      out << comment(c.children, opts) unless c.children.empty?
-      out << "</li>"
+      out << "</ul>"
+    else
+      ""
     end
-    out << "</ul>"
   end
 
 end
