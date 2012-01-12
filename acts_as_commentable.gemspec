@@ -1,29 +1,23 @@
-# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
 
+# Maintain your gem's version:
+require "acts_as_commentable/version"
+
+# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name = %q{acts_as_commentable}
-  s.version = "2.0.2"
+  s.name        = "acts_as_commentable"
+  s.version     = ActsAsCommentable::VERSION
+  s.authors     = ["Cosmin Radoi, Jack Dempsey, Xelipe, Chris Eppstein"]
+  s.email       = ["unknown@juixe.com"]
+  s.homepage    = "https://github.com/yenihayat/acts_as_commentable"
+  s.summary     = "Plugin/gem that provides comment functionality"
+  s.description = "Plugin/gem that provides comment functionality"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Cosmin Radoi, Jack Dempsey, Xelipe, Chris Eppstein"]
-  s.autorequire = %q{acts_as_commentable}
-  s.date = %q{2009-07-01}
-  s.description = %q{Plugin/gem that provides comment functionality}
-  s.email = %q{unknown@juixe.com}
-  s.extra_rdoc_files = ["README", "MIT-LICENSE"]
-  s.files = ["MIT-LICENSE", "README", "generators/comment", "generators/comment/comment_generator.rb", "generators/comment/templates", "generators/comment/templates/comment.rb", "generators/comment/templates/create_comments.rb", "lib/acts_as_commentable.rb", "lib/comment_methods.rb", "lib/commentable_methods.rb", "tasks/acts_as_commentable_tasks.rake", "init.rb", "install.rb"]
-  s.homepage = %q{http://www.juixe.com/techknow/index.php/2006/06/18/acts-as-commentable-plugin/}
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.4}
-  s.summary = %q{Plugin/gem that provides comment functionality}
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.test_files = Dir["test/**/*"]
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
+  s.add_dependency "rails", "~> 3.1.3"
+  # s.add_dependency "jquery-rails"
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-    else
-    end
-  else
-  end
+  #s.add_development_dependency "sqlite3"
 end

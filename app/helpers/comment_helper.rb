@@ -1,11 +1,12 @@
+# encoding: UTF-8
 module CommentHelper
 
   def comments(commentable, opts={})
     opts = { :new_comment => true }.merge(opts)
 
     out = "<div class=\"comments\">"
-    out << "<div class=\"count\">#{commentable.comments.size} Yorum</div>"
-    out << comment(commentable.comments.base, opts)
+    out << "<div class=\"count\">#{t 'comment.total'} : #{comment_number(commentable.comments.base)}</div>"
+    out << comment(commentable.comments.base.accepted, opts)
 
     if opts[:new_comment]
       out << "<div id=\"#{commentable.div_id}_container\">"
@@ -14,6 +15,7 @@ module CommentHelper
     end
 
     out << render(:partial => "comment/reply_comment", :locals => { :div_id => commentable.div_id, :reply_function => commentable.reply_function })
+    out << "</div>"
   end
 
   def new_comment(commentable)
@@ -28,21 +30,30 @@ module CommentHelper
       comments.each do |c|
         out << "<li>"
         out << "<div class=\"avatar\">#{image_tag c.gravatar_url}</div>" if avatar
-        out << "<div class=\"author\">#{c.website ? link_to(c.name, c.website, :target => "_blank", :rel => "external nofollow") : c.name}</div>"
+        out << "<div class=\"author\">#{c.website ? link_to(h(c.name || ''), h(c.website), :target => "_blank", :rel => "external nofollow") : h(c.name || '')}</div>"
         out << "<div class=\"date\">#{c.created_at}</div>"
-        out << "<div class=\"content\">#{c.comment}</div>"
+        out << "<div class=\"content\">#{h(c.comment || '')}</div>"
         if opts[:new_comment]
           out << "<div class=\"reply\">"
-          out << "<div class=\"reply_link\">#{link_to_function("cevapla", "#{reply_function}(this, #{c.id})")}</div>"
+          out << "<div class=\"reply_link\">#{link_to_function(t('comment.reply.reply'), "#{reply_function}(this, #{c.id})")}</div>"
           out << "</div>"
         end
-        out << comment(c.children, opts) unless c.children.empty?
+        accepted_children = c.accepted_children
+        out << comment(accepted_children, opts) unless accepted_children.empty?
         out << "</li>"
       end
       out << "</ul>"
     else
       ""
     end
+  end
+
+  def comment_number(comments)
+    total = 0
+    comments.accepted.each do |c|
+      total += c.accepted_children_count unless c.accepted_children.empty?
+    end
+    (total + comments.accepted.size).to_s
   end
 
 end

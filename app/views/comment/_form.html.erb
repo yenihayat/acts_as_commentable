@@ -2,22 +2,25 @@
   <input type="hidden" name="parent_id" value="<%= parent_id %>">
 </div>
 <div>
-  <%= form.label :name, "İsim <span class=\"asterix\">*</span>" %>
+  <%= form.label :name, "#{t 'name'} <span class=\"asterix\">*</span>" %>
   <%= form.text_field :name %>
   <%= form.error_message_on :name %>
 </div>
 <div>
-  <%= form.label :email, "Eposta <span class=\"asterix\">*</span>" %>
+  <%= form.label :email, "#{t 'email.email'} <span class=\"asterix\">*</span>" %>
   <%= form.text_field :email %>
   <%= form.error_message_on :email %>
 </div>
 <div>
-  <%= form.label :website, "Website" %>
+  <%= form.label :website, t('site.site') %>
   <%= form.text_field :website %>
   <%= form.error_message_on :website %>
 </div>
 <div>
-  <%= form.label :comment, "Yorum <span class=\"asterix\">*</span>" %>
+  <%= form.label :comment, "#{t 'comment.comment'} <span class=\"asterix\">*</span>" %>
   <%= form.text_area :comment %>
   <%= form.error_message_on :comment %>
+</div>
+<div>
+  <%= show_simple_captcha :label => t('captcha.info') %>
 </div>

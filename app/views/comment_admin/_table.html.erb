@@ -1,0 +1,45 @@
+<table id="dns_list">
+  <thead>
+  <tr class="b">
+    <td><%= t 'name' %></td>
+    <td><%= t 'email.email' %></td>
+    <td><%= t 'site.site' %></td>
+    <td><%= t 'comment.comment' %></td>
+    <td><%= t 'date.date' %></td>
+    <td><%= t 'comment.approvement' %></td>
+    <td><%= t 'edit' %></td>
+    <td><%= t 'delete' %></td>
+  </tr>
+  </thead>
+  <tbody>
+  <% comments.each do |c| %>
+    <tr>
+      <td><%= h(c.name || '') %></td>
+      <td><%= h(c.email || '') %></td>
+      <td><%= link_to(h(c.website || ''), h(c.website), :target => "_blank", :style => "text-indent:0") unless c.website.blank? %></td>
+      <td title="<%= h(c.comment || '') %>"><%= truncate(h(c.comment || ''), :length => 15) %></td>
+      <td><%= c.created_at.to_s(:db) %></td>
+      <td>
+        <% if c.approve_pending? %>
+            <%= link_back t('comment.approve.approve'), {:controller => 'comment_admin', :action => 'approve', :id => c, :state => true}, :style => 'text-indent:0' %>
+            <%= link_back t('comment.reject'), {:controller => 'comment_admin', :action => 'approve', :id => c, :state => false}, :style => 'text-indent:0' %>
+        <% elsif c.approved %>
+            <%= link_back t('comment.approve.remove'), {:controller => 'comment_admin', :action => 'approve', :id => c, :state => false}, :style => 'text-indent:0' %>
+        <% else %>
+            <%= link_back t('comment.approve.approve'), {:controller => 'comment_admin', :action => 'approve', :id => c, :state => true}, :style => 'text-indent:0' %>
+        <% end %>
+      </td>
+
+      <td><%= link_back( t('edit'), {:controller => 'comment_admin', :action => 'edit', :id => c}, :title => t('edit') , :class => 'dns_edit') %></td>
+      <td><%= link_back( t('delete'), {:controller => 'comment_admin', :action => 'delete', :id => c}, :confirm => t('are_you_sure'), :method => :post, :title => t('delete'), :class => 'dns_delete') %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<script>
+    $(document).ready(function() {
+        $('#dns_list tbody tr:odd').addClass('odd');
+        $('#dns_list tbody tr:even').addClass('even');
+    });
+</script>

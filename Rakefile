@@ -1,47 +1,39 @@
-require 'rubygems'
-require 'rake/gempackagetask'
+#!/usr/bin/env rake
+begin
+  require 'bundler/setup'
+rescue LoadError
+  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
+end
+begin
+  require 'rdoc/task'
+rescue LoadError
+  require 'rdoc/rdoc'
+  require 'rake/rdoctask'
+  RDoc::Task = Rake::RDocTask
+end
 
-PLUGIN = "acts_as_commentable"
-GEM = "acts_as_commentable"
-GEM_VERSION = "2.0.1"
-EMAIL = "unknown@juixe.com"
-HOMEPAGE = "http://www.juixe.com/techknow/index.php/2006/06/18/acts-as-commentable-plugin/"
-SUMMARY = "Plugin/gem that provides comment functionality"
+RDoc::Task.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'ActsAsCommentable'
+  rdoc.options << '--line-numbers'
+  rdoc.rdoc_files.include('README.rdoc')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
 
-spec = Gem::Specification.new do |s|
-  s.name = GEM
-  s.version = GEM_VERSION
-  s.platform = Gem::Platform::RUBY
-  s.has_rdoc = false
-  s.extra_rdoc_files = ["README", "MIT-LICENSE"]
-  s.summary = SUMMARY
-  s.description = s.summary
-  s.author = 'Cosmin Radoi, Jack Dempsey, Xelipe, Chris Eppstein'
-  s.email = EMAIL
-  s.homepage = HOMEPAGE
+APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
+load 'rails/tasks/engine.rake'
 
-  # Uncomment this to add a dependency
-  # s.add_dependency "foo"
 
-  s.require_path = 'lib'
-  s.autorequire = GEM
-  s.files = %w(MIT-LICENSE README) + Dir.glob("{generators,lib,tasks}/**/*") + %w(init.rb install.rb)
+Bundler::GemHelper.install_tasks
+
+require 'rake/testtask'
+
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib'
+  t.libs << 'test'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = false
 end
 
 
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
-
-desc "Install the gem"
-task :install => [:package] do
-  sh %{sudo gem install pkg/#{GEM}-#{GEM_VERSION}}
-end
-
-desc "Regenerate gemspec"
-task :gemspec do
-  File.open("#{GEM}.gemspec", 'w') do |f|
-    f.write(spec.to_ruby)
-  end
-end
-
+task :default => :test
