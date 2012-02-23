@@ -1,9 +1,13 @@
-<%= select_tag "comment_type", options_for_select([["#{t 'comment.all'} (#{@comments.size})", "all"], ["#{t 'comment.approved'} (#{@comments.accepted.size})", "accepted"], ["#{t 'comment.rejected'}(#{@comments.denied.size})", "denied"], ["#{t 'comment.pending'} (#{@comments.pending.size})", "pending"]]) %>
-<div style="display: none;" id="indicator">
-  <%= image_tag "indicator.gif" %>
+<%= page_title "#{t 'comment.comments'}: (#{@commentable.try(:title)})" %>
+
+<div class="comment_status_select">
+  <%= select_tag "comment_type", options_for_select([["#{t 'comment.all'} (#{@comments.size})", "all"], ["#{t 'comment.approved'} (#{@comments.accepted.size})", "accepted"], ["#{t 'comment.rejected'}(#{@comments.denied.size})", "denied"], ["#{t 'comment.pending'} (#{@comments.pending.size})", "pending"]]) %>
+  <div style="display: none;" id="indicator">
+    <%= image_tag "indicator.gif" %>
+  </div>
 </div>
 <div id="comments_table">
-  <%= render :partial => "table", :locals => { :comments => @comments } %>
+  <%= render "table", :comments => @comments %>
 </div>
 
 <%= javascript_tag do %>

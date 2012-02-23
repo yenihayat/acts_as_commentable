@@ -1,27 +1,11 @@
-<% render 'admin/shared/jqtransform' %>
-<% form_for @comment, :url => {:controller => 'comment_admin', :action => 'edit'}, :html => {:class => 'jqTransform'} do |f| %>
-    <h2 class="pname">
-      <%= link_to "#{t 'comment.comments'} (#{@comment.commentable.title})", :controller => 'comment_admin', :id => @comment.commentable_id, :type => @comment.commentable_type %> / <%= t('edit').titleize %>
-    </h2>
-    <div class="f_field clearfix">
-      <%= f.label :name, "#{t 'name'} <span class=\"asterix\">*</span>" %>
-      <%= f.text_field :name %>
-      <%= f.error_message_on :name %>
-    </div>
-    <div class="f_field clearfix">
-      <%= f.label :email, "#{t 'email.email'} <span class=\"asterix\">*</span>" %>
-      <%= f.text_field :email %>
-      <%= f.error_message_on :email %>
-    </div>
-    <div class="f_field clearfix">
-      <%= f.label :website, t('site.site') %>
-      <%= f.text_field :website %>
-      <%= f.error_message_on :website %>
-    </div>
-    <div class="f_field clearfix">
-      <%= f.label :comment, "#{t 'comment.comment'} <span class=\"asterix\">*</span>" %>
-      <%= f.text_area :comment %>
-      <%= f.error_message_on :comment %>
-    </div>
-    <div class="form_buttons"><button type="submit" class="fb1" value="submit"/></div>
+<%= page_title [
+	link_to("#{t 'comment.comments'}: (#{@comment.commentable.title})", :controller => 'comment_admin', :id => @comment.commentable_id, :type => @comment.commentable_type), 
+		t('edit').titleize] %>
+
+<%= simple_form_for @comment, url: { controller: 'comment_admin', action: 'edit', id: @comment.id } do |f| %>
+	<%= f.input :name %>
+	<%= f.input :email %>
+	<%= f.input :website, required: false %>
+	<%= f.input :comment %>
+	<%= f.submit t('save') %>
 <% end %>
