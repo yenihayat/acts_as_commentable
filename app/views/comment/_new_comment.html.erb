@@ -1,4 +1,4 @@
-<% remote_form_for comment, :url => { :controller => "comment", :action => "create", :id => comment.commentable_id, :type => comment.commentable_type } do |f| %>
+<%= form_for comment, :url => { :controller => "comment", :action => "create", :id => comment.commentable_id, :type => comment.commentable_type }, :remote => true do |f| %>
     <div class="cancel_reply" style="display:none"><%= link_to_function t('comment.reply.cancel'), "cancel_reply(this)" %></div>
     <%= render :partial => "comment/form", :locals => { :form => f, :parent_id => parent_id } %>
     <%= f.submit t('send') %>
