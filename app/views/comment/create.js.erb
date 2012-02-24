@@ -1,0 +1,9 @@
+<% if @simple_captcha_valid %>
+	<% if @comment_saved %>
+		window.location.reload();
+	<% else %>
+		$('#<%= @comment.commentable.div_id %>').html("<%= j(render("new_comment", comment: @comment, parent_id: params[:parent_id])) %>");
+	<% end %>
+<% else %>
+	$('#<%= @comment.commentable.div_id %> .simple_captcha_label').css('color', 'red');
+<% end %>
