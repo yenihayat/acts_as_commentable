@@ -21,7 +21,10 @@ class CommentAdminController < Admin::AdminController
     end
   end
 
+	# FIXME: Bir yorum silindiğinde birden fazla yorum siliniyor. Yorumlar nested tree yapısında.
+	# lft ve rgt değerleri aynı oluyor o yüzden bir yorum silinirken diğer yorumlar da silinebiliyor.
   def delete
+		return
     @comment = Comment.find(params[:id])
     if @user.can_edit?(@comment.commentable)
       @comment.destroy

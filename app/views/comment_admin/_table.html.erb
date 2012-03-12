@@ -31,7 +31,7 @@
           <% acts << [:comment_approve, link_back(t('comment.approve.approve'), { controller: 'comment_admin', action: 'approve', id: c, state: true}, title: t('comment.approve.approve').capitalize)] %>
       <% end %>
       <% acts << [:edit, link_back(t('edit'), { controller: 'comment_admin', action: 'edit', id: c }, title: t('edit').capitalize)] %>
-      <% acts << [:delete, link_back(t('delete'), { controller: 'comment_admin', action: 'delete', id: c }, confirm: t('are_you_sure'), method: :post, title: t('delete').capitalize)] %>
+      <%# acts << [:delete, link_back(t('delete'), { controller: 'comment_admin', action: 'delete', id: c }, confirm: t('are_you_sure'), method: :post, title: t('delete').capitalize)] %>
 			<%= tb.actions acts %>
 
 		<% end %>
