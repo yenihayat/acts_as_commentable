@@ -2,12 +2,12 @@
   <input type="hidden" name="parent_id" value="<%= parent_id %>">
 </div>
 <div>
-  <%= form.label :name, "#{t 'name'} <span class=\"asterix\">*</span>" %>
+  <%= form.label :name, "#{t 'name'} <span class=\"asterix\">*</span>".html_safe %>
   <%= form.text_field :name %>
   <%= form.error_message_on :name %>
 </div>
 <div>
-  <%= form.label :email, "#{t 'email.email'} <span class=\"asterix\">*</span>" %>
+  <%= form.label :email, "#{t 'email.email'} <span class=\"asterix\">*</span>".html_safe %>
   <%= form.text_field :email %>
   <%= form.error_message_on :email %>
 </div>
@@ -17,7 +17,7 @@
   <%= form.error_message_on :website %>
 </div>
 <div>
-  <%= form.label :comment, "#{t 'comment.comment'} <span class=\"asterix\">*</span>" %>
+  <%= form.label :comment, "#{t 'comment.comment'} <span class=\"asterix\">*</span>".html_safe %>
   <%= form.text_area :comment %>
   <%= form.error_message_on :comment %>
 </div>

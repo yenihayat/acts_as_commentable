@@ -35,7 +35,7 @@ class CommentAdminController < Admin::AdminController
   def approve
     @comment = Comment.find(params[:id])
     if @user.can_edit?(@comment.commentable)
-      flash[:notice] = params[:state] ? "Yorum onaylandı" : @comment.approve_pending ? "Yorum reddedildi" : "Yorumdan onay kaldırıldı"
+      flash[:notice] = (params[:state] == 'true') ? I18n.t('comment.was_approved') : @comment.approve_pending ? I18n.t('comment.was_rejected') : I18n.t('comment.was_unapproved')
       @comment.update_attributes(:approved =>  params[:state], :approve_pending => false, :approver => @user)
       redirect_back :action => 'index', :id => @comment.commentable_id, :type => @comment.commentable_type
     else
@@ -44,9 +44,10 @@ class CommentAdminController < Admin::AdminController
   end
 
   def set_comment_table
-    render :update do |page|
-      page["comments_table"].replace_html :partial => "table", :locals => { :comments => params[:type].constantize.find(params[:id]).comments.send(params[:comment_type]) }   
-    end
+		@comments = params[:type].constantize.find(params[:id]).comments.send(params[:comment_type])
+    #render :update do |page|
+    #  page["comments_table"].replace_html :partial => "table", :locals => { :comments => params[:type].constantize.find(params[:id]).comments.send(params[:comment_type]) }   
+    #end
   end
 
   #---------------------------------------------------------------------------------------------------

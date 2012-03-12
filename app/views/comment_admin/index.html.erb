@@ -1,4 +1,4 @@
-<%= page_title "#{t 'comment.comments'}: (#{@commentable.try(:title)})" %>
+<%= page_title "#{t 'comment.comments'}: (#{@commentable.try(:title) || @commentable.try(:safe_title)})" %>
 
 <div class="comment_status_select">
   <%= select_tag "comment_type", options_for_select([["#{t 'comment.all'} (#{@comments.size})", "all"], ["#{t 'comment.approved'} (#{@comments.accepted.size})", "accepted"], ["#{t 'comment.rejected'}(#{@comments.denied.size})", "denied"], ["#{t 'comment.pending'} (#{@comments.pending.size})", "pending"]]) %>
@@ -15,7 +15,7 @@
 	  $('#comment_type').change(function() {
 			 $.ajax({
               type: "post",
-              url: '<%= url_for(controller: 'comment_admin', action: 'set_comment_table', id: @commentable.id, type: @commentable.class.name) %>',
+              url: '<%= j(url_for(controller: 'comment_admin', action: 'set_comment_table', id: @commentable.id, type: @commentable.class.name)) %>',
               data: 'comment_type=' + $(this).val(),
               complete: function(msg){
 								$('#indicator').hide();
