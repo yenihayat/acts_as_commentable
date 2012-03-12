@@ -1,6 +1,7 @@
 <% if @simple_captcha_valid %>
 	<% if @comment_saved %>
-		window.location.reload();
+		//window.location.reload();
+		window.location.href=window.location.href;
 	<% else %>
 		$('#<%= @comment.commentable.div_id %>').html("<%= j(render("new_comment", comment: @comment, parent_id: params[:parent_id])) %>");
 	<% end %>

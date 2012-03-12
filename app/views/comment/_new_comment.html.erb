@@ -4,7 +4,7 @@
     <%= f.submit t('send') %>
 <% end %>
 
-<% javascript_tag do %>
+<%= javascript_tag do %>
     function cancel_reply(o){
         $(o).closest('.cancel_reply').hide();
         $(o).closest('.form').next().show();

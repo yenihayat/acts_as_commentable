@@ -1,4 +1,4 @@
-<% javascript_tag do %>
+<%= javascript_tag do %>
     function <%= reply_function %>(o, comment_id){
         $(o).closest('.comments').find('div.reply_link').show();
         $(o).closest('.reply_link').hide();
