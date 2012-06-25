@@ -30,7 +30,12 @@ module CommentHelper
       comments.each do |c|
         out << "<li>"
         out << "<div class=\"avatar\">#{image_tag c.gravatar_url}</div>" if avatar
-        out << "<div class=\"author\">#{c.website ? link_to(h(c.name || ''), h(c.website), :target => "_blank", :rel => "external nofollow") : h(c.name || '')}</div>"
+				if c.website?
+          website_url = (c.website =~ /^http/i) ? c.website : 'http://'.concat(c.website)
+				else
+				  website_url = "/"
+				end
+        out << "<div class=\"author\">#{c.website ? link_to(c.try(:name), website_url, :target => "_blank", :rel => "external nofollow") : h(c.name || '')}</div>"
         out << "<div class=\"date\">#{c.created_at}</div>"
         out << "<div class=\"content\">#{h(c.comment || '')}</div>"
         if opts[:new_comment]
